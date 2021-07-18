@@ -11,7 +11,7 @@ public class Lesson2 {
         Lesson2.getNumb(4, 7);
         Lesson2.isMore(-1);
         Lesson2.returnMore(-2);
-        Lesson2.findVisokosnyGod(2021);
+        Lesson2.printString(4, "string");
     }
 
     public static boolean getNumb(int a, int b){
@@ -46,22 +46,10 @@ public class Lesson2 {
     //4. Написать метод, которому в качестве аргументов передается строка и число, метод должен
     // отпечатать в консоль указанную строку, указанное количество раз;
 
-    public static void printString(int a, int g){
-        for (int i = a; i<a; i++) {
+    public static void printString(int a, String g){
+        for (int i = 0; i<a; i++) {
             System.out.println(g);
         }
     }
 
-
-    //5. * Написать метод, который определяет, является ли год високосным, и возвращает boolean
-    // (високосный - true, не високосный - false). Каждый 4-й год является високосным, кроме
-    // каждого 100-го, при этом каждый 400-й – високосный.
-    public static void findVisokosnyGod(int god){
-        if((god % 400 == 0) || ((god % 4 == 0) && (god % 100 != 0))) {
-            System.out.println("visokosny god");
-        }
-        else {
-            System.out.println("ne visokosny god");
-        }
-    }
 }
