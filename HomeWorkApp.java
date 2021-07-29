@@ -7,8 +7,8 @@ public class HomeWorkApp {
         HomeWorkApp.checkSumSign();
         HomeWorkApp.printColor();
         HomeWorkApp.compareNumbers();
-
     }
+
     public static void printThreeWords (){
         System.out.println("Orange");
         System.out.println("Banana");
@@ -17,7 +17,7 @@ public class HomeWorkApp {
     public static void checkSumSign (){
         int a=2;
         int b=3;
-        int c=a=b;
+        int c=a+b;
         if (c >= 0) {
             System.out.println("Сумма положительная");
         } else {
@@ -31,7 +31,7 @@ public class HomeWorkApp {
 //    Если value меньше 0 (0 включительно), то в консоль метод должен вывести сообщение “Красный”,
 //    если лежит в пределах от 0 (0 исключительно) до 100 (100 включительно), то “Желтый”,
 //    если больше 100 (100 исключительно) - “Зеленый”
-public static void printColor (){
+    public static void printColor (){
     int value=4;
     if (value <= 0) {
         System.out.println("Красный ");
