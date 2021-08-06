@@ -13,6 +13,10 @@ public class MainClass {
 
         robot1.attackLeft(robot2);
         robot1.attackRight(robot2);
+
+        robot2.mendRandomPart();
+
+
         robot1.speak();
     }
 }
