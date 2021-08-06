@@ -28,6 +28,7 @@ public abstract class RobotPart {
     public void getDamage(int value) {
         this.structureHealth -= value;
         System.out.println(robot.getName() + " > " + this.nameParts + " get damage " + value + " point(s)");
+        this.isIntact = false;
     }
 
     public boolean getStatusPart()  {
@@ -44,5 +45,14 @@ public abstract class RobotPart {
 
     public String getNameParts() {
         return nameParts;
+    }
+
+    public void restore() {
+        if(!this.isIntact) {
+            this.structureHealth = 100;
+            System.out.println(this.nameParts + " was damaged, restored ");
+        } else {
+            System.out.println(this.nameParts + " is healthy ");
+        }
     }
 }

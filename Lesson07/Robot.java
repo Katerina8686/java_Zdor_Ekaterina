@@ -53,4 +53,9 @@ public class Robot {
     public void speak() {
         System.out.println(name + " says: " + head.randomString());
     }
+
+    public void mendRandomPart() {
+        RobotPart partToRestore = this.target[random.nextInt(target.length)];
+        partToRestore.restore();
+    }
 }
