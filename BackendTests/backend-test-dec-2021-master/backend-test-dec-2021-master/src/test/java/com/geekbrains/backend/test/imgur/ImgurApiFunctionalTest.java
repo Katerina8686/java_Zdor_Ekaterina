@@ -1,28 +1,38 @@
 package com.geekbrains.backend.test.imgur;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+import java.util.Properties;
+
+import com.geekbrains.backend.test.FunctionalTest;
+import io.restassured.RestAssured;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ImgurApiFunctionalTest extends ImgurApiAbstractTest {
+public class ImgurApiFunctionalTest extends FunctionalTest {
 
-    private static String CURRENT_IMAGE_ID;
+
+    private static Properties properties;
+    private static String TOKEN;
+
+    @BeforeAll
+    static void beforeAll() throws Exception {
+        properties = readProperties();
+        RestAssured.baseURI = properties.getProperty("imgur-api-url");
+        TOKEN = properties.getProperty("imgur-api-token");
+    }
 
     @Test
-    @Order(1)
     void getAccountBase() {
-        String userName = "levinmk23";
+        String userName = "zdorka8686";
         given()
-                .spec(requestSpecification)
+                .auth()
+                .oauth2(TOKEN)
                 .log()
                 .all()
                 .expect()
-                .body("data.id", is(153514053))
+                .body("data.id", is(157817393))
                 .log()
                 .all()
                 .when()
@@ -30,58 +40,72 @@ public class ImgurApiFunctionalTest extends ImgurApiAbstractTest {
     }
 
     @Test
-    @Order(2)
+    void updateImageTest() {
+        given()
+                .header("Authorization", "Client-ID febf0c43a744fb4")
+                .formParam("description", "Picture")
+                .formParam("title", "new title >>")
+                .log()
+                .all()
+                .expect()
+                .statusCode(200)
+                .log()
+                .all()
+                .when()
+                .post("image/j3uxNTdA2OrJXH6");
+    }
+
+    @Test
     void postImageTest() {
-        CURRENT_IMAGE_ID = given()
-                .spec(requestSpecification)
-                .multiPart("image", getFileResource("img.jpg"))
+        given()
+                .auth()
+                .oauth2(TOKEN)
+                .multiPart("image", getFileResource("frog.png"))
                 .formParam("name", "Picture")
                 .formParam("title", "The best picture!")
                 .log()
                 .all()
                 .expect()
-                .body("data.size", is(46314))
-                .body("data.type", is("image/jpeg"))
+                .body("data.size", is(648957))
+                .body("data.type", is("image/png"))
                 .body("data.name", is("Picture"))
                 .body("data.title", is("The best picture!"))
                 .log()
                 .all()
                 .when()
-                .post("upload")
-                .body()
-                .jsonPath()
-                .getString("data.id");
+                .post("upload");
     }
 
     @Test
-    @Order(3)
-    void deleteImageById() {
+    void getImageTest() {
         given()
-                .spec(requestSpecification)
+                .auth()
+                .oauth2(TOKEN)
                 .log()
                 .all()
                 .expect()
-                .body("status", is(200))
+                .body("data.title", is("my frog"))
                 .log()
                 .all()
                 .when()
-                .delete("image/" + CURRENT_IMAGE_ID);
+                .get("image/Mxzxrkm");
     }
 
+
     @Test
-    void testCreateComment() {
+    void deleteImageTest() {
         given()
-                .spec(requestSpecification)
-                .formParam("image_id", "8xGCvWR")
-                .formParam("comment", "Hello world")
+                .auth()
+                .oauth2(TOKEN)
                 .log()
                 .all()
                 .expect()
-                .body("success", is(true))
-                .body("status", is(200))
+                .statusCode(200)
                 .log()
                 .all()
                 .when()
-                .post("comment");
+                .delete("image/j3uxNTdA2OrJXH6");
     }
+
+    // TODO: 08.12.2021 Домашка протестировать через RA минимум 5 различных end point-ов
 }
